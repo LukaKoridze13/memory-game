@@ -5,11 +5,16 @@ import "./reset.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./Pages/Home";
+import Game from "./Pages/Game";
 
 const router = createBrowserRouter([
   {
     path: "/memory-game",
     element: <Home />,
+  },
+  {
+    path: "/memory-game/:theme/:players/:grid/:round",
+    element: <Game />,
   },
 ]);
 
