@@ -13,8 +13,13 @@ module.exports = {
       lightgrey: "#BCCED9",
       grey: "#7191A5",
       bluegrey: "#6395B8",
+      menu:"rgba(151,151,151,0.3)"
     },
-    extend: {},
+    extend: {
+      boxShadow: {
+        'full': '0 0 0 9999px white',
+      }
+    },
   },
   plugins: [],
 };
