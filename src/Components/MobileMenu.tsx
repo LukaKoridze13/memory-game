@@ -12,7 +12,7 @@ export default function MobileMenu(props: {
         <button className="bg-orange h-12 w-11/12 rounded-3xl flex justify-center items-center text-lg text-darkwhite font-bold">
           Restart
         </button>
-        <button className="bg-newgame h-12 w-11/12 rounded-3xl flex justify-center items-center text-lg text-darkgrey font-bold" onClick={()=>{navigate('/memory-game/')}}>
+        <button className="bg-newgame h-12 w-11/12 rounded-3xl flex justify-center items-center text-lg text-darkgrey font-bold" onClick={()=>{navigate('/')}}>
           New Game
         </button>
         <button

@@ -16,7 +16,7 @@ export default function Header(props:{
         <button className="py-3 px-10 bg-orange hover:bg-lightorange text-darkwhite font-bold text-xl rounded-3xl">
           Restart
         </button>
-        <button onClick={()=>{navigate('/memory-game/')}} className="py-3 px-6 bg-newgame hover:bg-bluegrey text-darkest font-bold text-xl rounded-3xl">
+        <button onClick={()=>{navigate('/')}} className="py-3 px-6 bg-newgame hover:bg-bluegrey text-darkest font-bold text-xl rounded-3xl">
           New Game
         </button>
       </div>

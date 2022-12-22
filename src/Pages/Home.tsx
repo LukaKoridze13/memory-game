@@ -76,7 +76,7 @@ export default function Home() {
         </div>
         <button
           onClick={() => {
-            navigate(`/memory-game/${theme}/${players}/${grid}/0`);
+            navigate(`/${theme}/${players}/${grid}/0`);
           }}
           className="flex items-center justify-center bg-orange text-darkwhite font-bold text-lg md:text-5x w-full h-12 md:h-16 mt-8 rounded-3xl hover:bg-lightorange cursor-pointer">
           Start Game
