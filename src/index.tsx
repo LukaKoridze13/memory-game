@@ -9,14 +9,14 @@ import Game from "./Pages/Game";
 
 const router = createBrowserRouter([
   {
-    path: "/memory-game",
+    path: "/",
     element: <Home />,
   },
   {
-    path: "/memory-game/:theme/:players/:grid/:round",
+    path: "/:theme/:players/:grid/:round",
     element: <Game />,
   },
-]);
+], {basename:'/memory-game/'});
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
