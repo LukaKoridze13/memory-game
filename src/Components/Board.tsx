@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPoo,
-  faBomb,
-  faCar,
-  faGhost,
-  faShip,
-  faBaby,
-  faRocket,
-  faHippo,
-  faSun,
-  faMoon,
-  faAnchor,
-  faAmbulance,
-  faAtom,
-  faSwimmer,
-  faBiking,
-  faTractor,
-  faSnowman,
-  faSnowflake,
-} from "@fortawesome/free-solid-svg-icons";
+// prettier-ignore
+import {faPoo,faBomb,faCar,faGhost,faShip,faBaby,faRocket,faHippo,faSun,faMoon,faAnchor,faAmbulance,faAtom,faSwimmer,faBiking,faTractor,faSnowman,faSnowflake } from "@fortawesome/free-solid-svg-icons";
+
 import Card from "./Card";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 interface card {
@@ -33,76 +16,31 @@ const random36 = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1, 2, 3, 4, 5,
   6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
 ];
-const icons16 = [
-  faPoo,
-  faBomb,
-  faCar,
-  faGhost,
-  faShip,
-  faBaby,
-  faRocket,
-  faHippo,
-  faPoo,
-  faBomb,
-  faCar,
-  faGhost,
-  faShip,
-  faBaby,
-  faRocket,
-  faHippo,
+// prettier-ignore
+const icons16 = [faPoo,faBomb,faCar,faGhost,faShip,faBaby,faRocket,faHippo,faPoo,faBomb,faCar,faGhost,faShip,faBaby,faRocket,faHippo];
+
+// prettier-ignore
+const icons36 = [faPoo,faBomb,faCar,faGhost,faShip,faBaby,faRocket,faHippo,faSun,faMoon,faAnchor,faAmbulance,faAtom,faSwimmer,faBiking,faTractor,faSnowman,faSnowflake,faPoo,faBomb,faCar,faGhost,faShip,faBaby,faRocket,faHippo,faSun,faMoon,faAnchor,faAmbulance,faAtom,faSwimmer,faBiking,faTractor,faSnowman,faSnowflake,
 ];
-const icons36 = [
-  faPoo,
-  faBomb,
-  faCar,
-  faGhost,
-  faShip,
-  faBaby,
-  faRocket,
-  faHippo,
-  faSun,
-  faMoon,
-  faAnchor,
-  faAmbulance,
-  faAtom,
-  faSwimmer,
-  faBiking,
-  faTractor,
-  faSnowman,
-  faSnowflake,
-  faPoo,
-  faBomb,
-  faCar,
-  faGhost,
-  faShip,
-  faBaby,
-  faRocket,
-  faHippo,
-  faSun,
-  faMoon,
-  faAnchor,
-  faAmbulance,
-  faAtom,
-  faSwimmer,
-  faBiking,
-  faTractor,
-  faSnowman,
-  faSnowflake,
-];
+
 export default function Board(props: {
   grid: number;
   theme: string | undefined;
+  moves: number;
+  setMoves: (arg:number)=>void
 }) {
-  const { grid, theme } = props;
+  const { grid, theme, moves, setMoves} = props;
   const [cards, setCards] = useState<card[]>([]);
   const [refresh, setRefresh] = useState<boolean>(true);
   const [check, setCheck] = useState<number>(0);
+
   function shuffleArray(array: number[] | IconDefinition[]) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
+  // handling click on card
   function checkCard(id: number, checked: boolean, opened: boolean) {
     if (check < 2 && !checked && !opened) {
       cards.forEach((card) => {
@@ -115,8 +53,11 @@ export default function Board(props: {
       setCheck(check + 1);
     }
   }
+
+  // Checks if two flipped cards are the same
   function areSame() {
     if (check === 2) {
+      setMoves(moves+1)
       let checkers = cards.filter((card) => card.checked);
       if (theme === "Numbers") {
         if (checkers[0].content.props.num === checkers[1].content.props.num) {
@@ -166,6 +107,8 @@ export default function Board(props: {
       }
     }
   }
+
+  // Generate Board Randomly
   useEffect(() => {
     if (cards.length === 0) {
       if (theme === "Numbers") {
@@ -197,7 +140,6 @@ export default function Board(props: {
       } else {
         if (grid === 4) {
           shuffleArray(icons16);
-
           for (let i = 0; i < grid * grid; i++) {
             cards.push({
               id: i + 1,
@@ -210,7 +152,6 @@ export default function Board(props: {
           setRefresh(!refresh);
         } else {
           shuffleArray(icons36);
-
           for (let i = 0; i < grid * grid; i++) {
             cards.push({
               id: i + 1,
@@ -225,25 +166,20 @@ export default function Board(props: {
       }
     }
   }, []);
+
   useEffect(() => {
     areSame();
   }, [check]);
+
   return (
     <div
-      className={`board w-full aspect-square max-w-xl grid ${
-        grid === 4 ? "grid-cols-4" : "grid-cols-6"
-      } mt-20 md:mt-28 gap-3 md:gap-5`}>
+      // prettier-ignore
+      className={`board w-full aspect-square max-w-xl grid ${grid === 4 ? "grid-cols-4" : "grid-cols-6"} md:mt-24 gap-3 md:gap-5`}>
       {cards.map((card) => {
         const { content, checked, opened, id } = card;
         return (
-          <Card
-            content={content}
-            checked={checked}
-            opened={opened}
-            id={id}
-            key={id}
-            onClick={checkCard}
-          />
+          // prettier-ignore
+          <Card content={content} checked={checked} opened={opened} id={id} key={id} onClick={checkCard} />
         );
       })}
     </div>
