@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     path: "/:theme/:players/:grid/:round",
     element: <Game />,
   },
-]);
+], {basename:'/memory-game/'});
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
