@@ -13,7 +13,7 @@ export default function Header(props:{
         Menu
       </button>
       <div className="hidden md:flex gap-4">
-        <button className="py-3 px-10 bg-orange hover:bg-lightorange text-darkwhite font-bold text-xl rounded-3xl">
+        <button onClick={()=>{window.location.reload()}} className="py-3 px-10 bg-orange hover:bg-lightorange text-darkwhite font-bold text-xl rounded-3xl">
           Restart
         </button>
         <button onClick={()=>{navigate('/')}} className="py-3 px-6 bg-newgame hover:bg-bluegrey text-darkest font-bold text-xl rounded-3xl">

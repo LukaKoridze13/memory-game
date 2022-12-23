@@ -5,6 +5,7 @@ import {faPoo,faBomb,faCar,faGhost,faShip,faBaby,faRocket,faHippo,faSun,faMoon,f
 
 import Card from "./Card";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import Players from "./Players";
 interface card {
   id: number;
   opened: boolean;
@@ -27,9 +28,26 @@ export default function Board(props: {
   grid: number;
   theme: string | undefined;
   moves: number;
-  setMoves: (arg:number)=>void
+  setMoves: (arg: number) => void;
+  turn: number;
+  setTurn: (arg: number) => void;
+  players: number;
+  points: number[][];
+  setPoints: (arg: number[][]) => void;
+  setFinish: (arg: boolean) => void;
 }) {
-  const { grid, theme, moves, setMoves} = props;
+  const {
+    grid,
+    theme,
+    moves,
+    setMoves,
+    turn,
+    setTurn,
+    players,
+    points,
+    setPoints,
+    setFinish,
+  } = props;
   const [cards, setCards] = useState<card[]>([]);
   const [refresh, setRefresh] = useState<boolean>(true);
   const [check, setCheck] = useState<number>(0);
@@ -57,7 +75,6 @@ export default function Board(props: {
   // Checks if two flipped cards are the same
   function areSame() {
     if (check === 2) {
-      setMoves(moves+1)
       let checkers = cards.filter((card) => card.checked);
       if (theme === "Numbers") {
         if (checkers[0].content.props.num === checkers[1].content.props.num) {
@@ -67,6 +84,8 @@ export default function Board(props: {
               card.checked = false;
             }
           });
+          points[turn][0]++;
+          setPoints(points);
           setCards(cards);
           setRefresh(!refresh);
           setCheck(0);
@@ -79,6 +98,11 @@ export default function Board(props: {
             setRefresh(!refresh);
             setCheck(0);
           }, 1500);
+          if (turn === players - 1) {
+            setTurn(0);
+          } else {
+            setTurn(turn + 1);
+          }
         }
       } else {
         if (
@@ -91,6 +115,8 @@ export default function Board(props: {
               card.checked = false;
             }
           });
+          points[turn][0]++;
+          setPoints(points);
           setCards(cards);
           setRefresh(!refresh);
           setCheck(0);
@@ -103,68 +129,88 @@ export default function Board(props: {
             setRefresh(!refresh);
             setCheck(0);
           }, 1500);
+          if (turn === players - 1) {
+            setTurn(0);
+          } else {
+            setTurn(turn + 1);
+          }
         }
+      }
+      setMoves(moves + 1);
+      
+      checkWin();
+    }
+  }
+
+  function checkWin() {
+    let win = true;
+    cards.forEach((card) => {
+      !card.opened && (win = false);
+    });
+    if (win) {
+      setFinish(true);
+    }
+  }
+  function generate() {
+    let mas = [];
+    if (theme === "Numbers") {
+      if (grid === 4) {
+        shuffleArray(random16);
+        for (let i = 0; i < grid * grid; i++) {
+          mas.push({
+            id: i + 1,
+            opened: false,
+            checked: false,
+            content: <Num num={random16[i]} />,
+          });
+        }
+        setCards(mas);
+        setRefresh(!refresh);
+      } else {
+        shuffleArray(random36);
+        for (let i = 0; i < grid * grid; i++) {
+          mas.push({
+            id: i + 1,
+            opened: false,
+            checked: false,
+            content: <Num num={random36[i]} />,
+          });
+        }
+        setCards(mas);
+        setRefresh(!refresh);
+      }
+    } else {
+      if (grid === 4) {
+        shuffleArray(icons16);
+        for (let i = 0; i < grid * grid; i++) {
+          mas.push({
+            id: i + 1,
+            opened: false,
+            checked: false,
+            content: <FontAwesomeIcon icon={icons16[i]} />,
+          });
+        }
+        setCards(mas);
+        setRefresh(!refresh);
+      } else {
+        shuffleArray(icons36);
+        for (let i = 0; i < grid * grid; i++) {
+          mas.push({
+            id: i + 1,
+            opened: false,
+            checked: false,
+            content: <FontAwesomeIcon icon={icons36[i]} />,
+          });
+        }
+        setCards(mas);
+        setRefresh(!refresh);
       }
     }
   }
 
   // Generate Board Randomly
   useEffect(() => {
-    if (cards.length === 0) {
-      if (theme === "Numbers") {
-        if (grid === 4) {
-          shuffleArray(random16);
-          for (let i = 0; i < grid * grid; i++) {
-            cards.push({
-              id: i + 1,
-              opened: false,
-              checked: false,
-              content: <Num num={random16[i]} />,
-            });
-          }
-          setCards(cards);
-          setRefresh(!refresh);
-        } else {
-          shuffleArray(random36);
-          for (let i = 0; i < grid * grid; i++) {
-            cards.push({
-              id: i + 1,
-              opened: false,
-              checked: false,
-              content: <Num num={random36[i]} />,
-            });
-          }
-          setCards(cards);
-          setRefresh(!refresh);
-        }
-      } else {
-        if (grid === 4) {
-          shuffleArray(icons16);
-          for (let i = 0; i < grid * grid; i++) {
-            cards.push({
-              id: i + 1,
-              opened: false,
-              checked: false,
-              content: <FontAwesomeIcon icon={icons16[i]} />,
-            });
-          }
-          setCards(cards);
-          setRefresh(!refresh);
-        } else {
-          shuffleArray(icons36);
-          for (let i = 0; i < grid * grid; i++) {
-            cards.push({
-              id: i + 1,
-              opened: false,
-              checked: false,
-              content: <FontAwesomeIcon icon={icons36[i]} />,
-            });
-          }
-          setCards(cards);
-          setRefresh(!refresh);
-        }
-      }
-    }
+    generate();
   }, []);
 
   useEffect(() => {
@@ -174,7 +220,7 @@ export default function Board(props: {
   return (
     <div
       // prettier-ignore
-      className={`board w-full aspect-square max-w-xl grid ${grid === 4 ? "grid-cols-4" : "grid-cols-6"} md:mt-24 gap-3 md:gap-5`}>
+      className={`board w-full aspect-square lg:max-w-sm 2xl:max-w-xl  grid ${grid === 4 ? "grid-cols-4" : "grid-cols-6"} md:mt-24 gap-3 md:gap-5`}>
       {cards.map((card) => {
         const { content, checked, opened, id } = card;
         return (
