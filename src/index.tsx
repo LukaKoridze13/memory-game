@@ -6,17 +6,30 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./Pages/Home";
 import Game from "./Pages/Game";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/:theme/:players/:grid/:round",
-    element: <Game />,
-  },
-], {basename:'/memory-game/'});
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
+    {
+      path: "/:theme/:players/:grid/:round",
+      element: <Game />,
+    },
+  ],
+  { basename: "/memory-game/" }
+);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

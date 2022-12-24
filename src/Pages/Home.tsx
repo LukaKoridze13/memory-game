@@ -5,7 +5,8 @@ import Logo from "../Components/Logo";
 import Players from "../Components/Players";
 import useChooseBetween from "../Hooks/ChooseBetween";
 import { useNavigate } from "react-router-dom";
-
+import Leaderboard from "../Components/Leaderboard";
+const { REACT_APP_API, REACT_APP_TOKEN } = process.env;
 export default function Home() {
   const [theme, setTheme] = React.useState<string>("Numbers");
   const numbers = React.useRef<HTMLButtonElement>(null);
@@ -42,11 +43,74 @@ export default function Home() {
     icons
   );
   const changeGrid = useChooseBetween(grid, setGrid, "4x4", "6x6", four, six);
-
   return (
     <div className="bg-darkest flex items-center justify-evenly flex-col h-screen w-screen">
-      <Logo />
-      <div className="w-11/12 max-w-2xl bg-darkwhite rounded-3xl p-4 md:p-10">
+      <div className="absolute top-10 left-6 hidden sm:block">
+        <Leaderboard />
+      </div>
+      <div className="flex flex-col content-evenly w-full">
+        <Logo />
+        {localStorage.getItem(REACT_APP_TOKEN || "") === null ? (
+          <div className="flex justify-evenly md:hidden">
+            <button
+              onClick={() => {
+                navigate("/login");
+              }}
+              className="flex  items-center justify-center bg-orange text-darkwhite font-bold text-lg md:text-5x w-24 h-12 md:h-16 mt-8 rounded-3xl hover:bg-lightorange cursor-pointer">
+              Login
+            </button>
+            <button
+              onClick={() => {
+                navigate("/register");
+              }}
+              className="flex items-center justify-center bg-orange text-darkwhite font-bold text-lg md:text-5x w-24 h-12 md:h-16 mt-8 rounded-3xl hover:bg-lightorange cursor-pointer">
+              Register
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => {
+              localStorage.removeItem(REACT_APP_TOKEN || "");
+              navigate("/");
+            }}
+            className="flex md:hidden items-center justify-center bg-orange text-darkwhite font-bold text-lg md:text-5x w-fit px-2 mx-auto h-12 md:h-16 mt-8 rounded-3xl hover:bg-lightorange cursor-pointer">
+            Sign Out ({localStorage.getItem(REACT_APP_TOKEN || "")})
+          </button>
+        )}
+        <div className="sm:hidden mx-auto mt-6 mb-6">
+          <Leaderboard />
+        </div>
+      </div>
+      <div className="w-11/12 max-w-2xl bg-darkwhite rounded-3xl p-4 md:p-10 relative">
+        {localStorage.getItem(REACT_APP_TOKEN || "") === null ? (
+          <div className="hidden justify-evenly md:flex absolute gap-5 right-2 -top-6">
+            <button
+              onClick={() => {
+                navigate("/login");
+              }}
+              className="flex  items-center justify-center bg-orange text-darkwhite font-bold text-lg md:text-5x w-24 h-12 md:h-16 mt-8 rounded-3xl hover:bg-lightorange cursor-pointer">
+              Login
+            </button>
+            <button
+              onClick={() => {
+                navigate("/register");
+              }}
+              className="flex items-center justify-center bg-orange text-darkwhite font-bold text-lg md:text-5x w-24 h-12 md:h-16 mt-8 rounded-3xl hover:bg-lightorange cursor-pointer">
+              Register
+            </button>
+          </div>
+        ) : (
+          <div className="hidden justify-evenly md:flex absolute gap-5 right-2 -top-6">
+            <button
+              onClick={() => {
+                localStorage.removeItem(REACT_APP_TOKEN || "");
+                navigate("/");
+              }}
+              className="flex  items-center justify-center bg-orange text-darkwhite font-bold text-lg md:text-5x w-fit px-2 h-12 md:h-16 mt-8 rounded-3xl hover:bg-lightorange cursor-pointer">
+              Sign Out ({localStorage.getItem(REACT_APP_TOKEN || "")})
+            </button>
+          </div>
+        )}
         <div>
           <Label text="Select Theme" />
           <div className="flex justify-between mt-3 md:mt-4">

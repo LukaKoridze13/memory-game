@@ -1,20 +1,34 @@
 import React, { useRef, useState } from "react";
 import Score from "./Score";
+import axios from "axios";
+const { REACT_APP_API, REACT_APP_TOKEN } = process.env;
+
 export default function Scores(props: {
   players: number;
   points: number[][];
   moves: number;
   turn: number;
-  finish:boolean;
-  setT: (arg:string) => void
+  finish: boolean;
+  setT: (arg: string) => void;
+  grid: string;
 }) {
-  const { players, points, moves, turn, finish,setT} = props;
+  const { players, points, moves, turn, finish, setT, grid } = props;
   const [seconds, setSeconds] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);
   const [time, setTime] = useState<string>("0");
-
+  const [res, setRes] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  function addData() {
+    axios.post(`${REACT_APP_API}${grid}`, {
+      player: localStorage.getItem(REACT_APP_TOKEN || ""),
+      seconds:seconds-1,
+      minutes,
+      hours,
+      moves,
+    });
+  }
   React.useEffect(() => {
     if (ref.current?.children[turn] !== undefined) {
       for (let i = 0; i < players; i++) {
@@ -33,7 +47,7 @@ export default function Scores(props: {
   });
   // Handels time
   React.useEffect(() => {
-    if(!finish){
+    if (!finish) {
       let sec = setInterval(() => {
         if (seconds === 59) {
           setSeconds(0);
@@ -44,10 +58,16 @@ export default function Scores(props: {
       return () => {
         clearInterval(sec);
       };
+    } else {
+      !res && setSeconds(seconds - 1);
+      !res && setRes(true);
+      if (!res && localStorage.getItem(REACT_APP_TOKEN || "") !== null) {
+        addData();
+      }
     }
   }, [seconds]);
   React.useEffect(() => {
-    if(!finish){
+    if (!finish) {
       let min = setInterval(() => {
         if (minutes === 59) {
           setMinutes(0);
@@ -61,7 +81,7 @@ export default function Scores(props: {
     }
   }, [minutes]);
   React.useEffect(() => {
-    if(!finish){
+    if (!finish) {
       let hour = setInterval(() => {
         setHours(hours + 1);
       }, 3600000);
@@ -84,8 +104,9 @@ export default function Scores(props: {
     }
   }, [seconds]);
   React.useEffect(() => {
-    setT(time)
+    setT(time);
   }, [time]);
+
   // Return
   if (players > 1) {
     return (

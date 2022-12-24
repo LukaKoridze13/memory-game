@@ -12,12 +12,12 @@ export default function Game() {
   const [points, setPoints] = useState<number[][]>([]);
   const [moves, setMoves] = useState<number>(0);
   const [turn, setTurn] = useState<number>(0);
-  const [finish,setFinish]= useState<boolean>(false)
-  const [time,setTime] = useState<string>('')
+  const [finish, setFinish] = useState<boolean>(false);
+  const [time, setTime] = useState<string>("");
   function resetPoints() {
     let x = [];
     for (let i = 0; i < Number(players); i++) {
-      x.push([0,i+1]);
+      x.push([0, i + 1]);
     }
     setPoints(x);
   }
@@ -38,8 +38,9 @@ export default function Game() {
         turn={turn}
         finish={finish}
         setT={setTime}
+        grid={grid === "4x4" ? "grid4" : "grid6"}
       />
-      {finish && <Finish points={points} moves={moves} time={time}/>}
+      {finish && <Finish points={points} moves={moves} time={time} />}
     </main>
   );
 }
