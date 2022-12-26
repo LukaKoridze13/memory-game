@@ -27,7 +27,7 @@ export default function Scores(props: {
       minutes,
       hours,
       moves,
-    });
+    }).then((res)=>{console.log(res)});
   }
   React.useEffect(() => {
     if (ref.current?.children[turn] !== undefined) {
@@ -62,7 +62,7 @@ export default function Scores(props: {
       !res && setSeconds(seconds - 1);
       !res && setRes(true);
       if (!res && localStorage.getItem(REACT_APP_TOKEN || "") !== null) {
-        addData();
+        addData()
       }
     }
   }, [seconds]);
