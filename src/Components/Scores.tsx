@@ -27,7 +27,7 @@ export default function Scores(props: {
       minutes,
       hours,
       moves,
-    }).then((res)=>{console.log(res)});
+    })
   }
   React.useEffect(() => {
     if (ref.current?.children[turn] !== undefined) {

@@ -64,6 +64,22 @@ export default function Register() {
           className="px-4 py-2 rounded-lg bg-lightgrey font-bold">
           Register
         </button>
+        <div className="flex w-full justify-around text-darkwhite font-bold">
+          <p
+            onClick={() => {
+              navigate("/login");
+            }}
+            className="cursor-pointer">
+            Login
+          </p>
+          <p
+            onClick={() => {
+              navigate("/");
+            }}
+            className="cursor-pointer">
+            Home
+          </p>
+        </div>
       </form>
     </div>
   );

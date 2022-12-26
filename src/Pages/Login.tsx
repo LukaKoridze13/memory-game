@@ -59,6 +59,10 @@ export default function Login() {
           className="px-4 py-2 rounded-lg bg-lightgrey font-bold">
           Login
         </button>
+        <div className="flex w-full justify-around text-darkwhite font-bold">
+          <p onClick={()=>{navigate('/register')}} className="cursor-pointer">Register</p>
+          <p onClick={()=>{navigate('/')}} className="cursor-pointer">Home</p>
+        </div>
       </form>
     </div>
   );

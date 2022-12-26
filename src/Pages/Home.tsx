@@ -88,14 +88,14 @@ export default function Home() {
               onClick={() => {
                 navigate("/login");
               }}
-              className="flex  items-center justify-center bg-orange text-darkwhite font-bold text-lg md:text-5x w-24 h-12 md:h-16 mt-8 rounded-3xl hover:bg-lightorange cursor-pointer">
+              className="flex  items-center justify-cente text-darkest font-bold text-lg md:text-5x mt-8  cursor-pointer">
               Login
             </button>
             <button
               onClick={() => {
                 navigate("/register");
               }}
-              className="flex items-center justify-center bg-orange text-darkwhite font-bold text-lg md:text-5x w-24 h-12 md:h-16 mt-8 rounded-3xl hover:bg-lightorange cursor-pointer">
+              className="flex items-center justify-center text-darkest font-bold text-lg md:text-5x  mt-8 rounded-3xl cursor-pointer">
               Register
             </button>
           </div>
@@ -106,7 +106,7 @@ export default function Home() {
                 localStorage.removeItem(REACT_APP_TOKEN || "");
                 navigate("/");
               }}
-              className="flex  items-center justify-center bg-orange text-darkwhite font-bold text-lg md:text-5x w-fit px-2 h-12 md:h-16 mt-8 rounded-3xl hover:bg-lightorange cursor-pointer">
+              className="flex  items-center justify-center  text-darkest font-bold text-lg md:text-5x  mt-8  cursor-pointer">
               Sign Out ({localStorage.getItem(REACT_APP_TOKEN || "")})
             </button>
           </div>
