@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 const { REACT_APP_API, REACT_APP_TOKEN } = process.env;
+
 export default function Leaderboard() {
   const [filter, setFilter] = useState<string>("time");
   const [grid, setGrid] = useState<string>("grid4");
   const [ref, setRef] = useState<boolean>(true);
+  const [theme, setTheme] = useState<string>("Numbers");
   const [data, setData] = useState<
     {
       player: string;
@@ -12,6 +14,7 @@ export default function Leaderboard() {
       minutes: number;
       hours: number;
       moves: number;
+      theme: string;
     }[]
   >([]);
   const [filteredData, setFilteredData] = useState<
@@ -21,6 +24,7 @@ export default function Leaderboard() {
       minutes: number;
       hours: number;
       moves: number;
+      theme: string;
     }[]
   >([]);
   const [fetch, setFetch] = useState(true);
@@ -53,12 +57,34 @@ export default function Leaderboard() {
         return a.moves - b.moves;
       });
     }
-    x=x.filter((v, i, a) => a.findIndex((v2) => v2.player === v.player) === i);
-    setFilteredData(x)
+    x = x.filter((item) => item.theme === theme);
+    x = x.filter(
+      (v, i, a) => a.findIndex((v2) => v2.player === v.player) === i
+    );
+    setFilteredData(x);
     setRef(!ref);
-  }, [filter, grid,data]);
+  }, [filter, grid, data, theme]);
+
   return (
     <div className="w-60">
+      <p className="text-center text-darkwhite font-bold text-2xl mb-5">
+        <span
+          onClick={() => {
+            setTheme("Numbers");
+          }}
+          className={`${theme === "Icons" && "opacity-25"} cursor-pointer`}>
+          Numbers
+        </span>
+        <span
+          onClick={() => {
+            setTheme("Icons");
+          }}
+          className={`${
+            theme === "Numbers" && "opacity-25"
+          } cursor-pointer ml-3`}>
+          Icons
+        </span>
+      </p>
       <p className="text-center text-darkwhite font-bold text-2xl mb-5">
         <span
           onClick={() => {

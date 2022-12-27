@@ -5,7 +5,6 @@ import {faPoo,faBomb,faCar,faGhost,faShip,faBaby,faRocket,faHippo,faSun,faMoon,f
 
 import Card from "./Card";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import Players from "./Players";
 interface card {
   id: number;
   opened: boolean;

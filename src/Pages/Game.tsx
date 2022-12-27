@@ -39,6 +39,7 @@ export default function Game() {
         finish={finish}
         setT={setTime}
         grid={grid === "4x4" ? "grid4" : "grid6"}
+        theme={theme || ""}
       />
       {finish && <Finish points={points} moves={moves} time={time} />}
     </main>

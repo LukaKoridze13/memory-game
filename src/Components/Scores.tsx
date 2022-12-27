@@ -11,8 +11,9 @@ export default function Scores(props: {
   finish: boolean;
   setT: (arg: string) => void;
   grid: string;
+  theme: string;
 }) {
-  const { players, points, moves, turn, finish, setT, grid } = props;
+  const { players, points, moves, turn, finish, setT, grid,theme} = props;
   const [seconds, setSeconds] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);
@@ -21,12 +22,14 @@ export default function Scores(props: {
   const ref = useRef<HTMLDivElement>(null);
 
   function addData() {
+    console.log(theme)
     axios.post(`${REACT_APP_API}${grid}`, {
       player: localStorage.getItem(REACT_APP_TOKEN || ""),
       seconds:seconds-1,
       minutes,
       hours,
       moves,
+      theme
     })
   }
   React.useEffect(() => {
