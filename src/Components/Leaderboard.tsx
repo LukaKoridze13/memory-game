@@ -1,5 +1,4 @@
 import axios from "axios";
-import { stringify } from "querystring";
 import React, { useEffect, useState } from "react";
 const { REACT_APP_API, REACT_APP_TOKEN } = process.env;
 export default function Leaderboard() {
@@ -7,6 +6,15 @@ export default function Leaderboard() {
   const [grid, setGrid] = useState<string>("grid4");
   const [ref, setRef] = useState<boolean>(true);
   const [data, setData] = useState<
+    {
+      player: string;
+      seconds: number;
+      minutes: number;
+      hours: number;
+      moves: number;
+    }[]
+  >([]);
+  const [filteredData, setFilteredData] = useState<
     {
       player: string;
       seconds: number;
@@ -33,21 +41,22 @@ export default function Leaderboard() {
     });
   }, [fetch, grid]);
   useEffect(() => {
+    let x;
     if (filter === "time") {
-      let x = data.sort((a, b) => {
+      x = data.sort((a, b) => {
         let ax = a.hours * 3600 + a.minutes * 60 + a.seconds;
         let bx = b.hours * 3600 + b.minutes * 60 + b.seconds;
         return ax - bx;
       });
-      setData(x);
     } else {
-      let x = data.sort((a, b) => {
+      x = data.sort((a, b) => {
         return a.moves - b.moves;
       });
-      setData(x);
     }
+    x=x.filter((v, i, a) => a.findIndex((v2) => v2.player === v.player) === i);
+    setFilteredData(x)
     setRef(!ref);
-  }, [filter, data]);
+  }, [filter, grid,data]);
   return (
     <div className="w-60">
       <p className="text-center text-darkwhite font-bold text-2xl mb-5">
@@ -83,7 +92,7 @@ export default function Leaderboard() {
         </span>
       </p>
 
-      {data.length === 0 ? (
+      {filteredData.length === 0 ? (
         <p>Loading...</p>
       ) : (
         <table className="text-darkwhite font-bold border-collapse block w-60">
@@ -99,7 +108,7 @@ export default function Leaderboard() {
             </tr>
           </thead>
           <tbody className="bg-bluegrey block h-56 overflow-y-scroll">
-            {data.map((item, i) => {
+            {filteredData.map((item, i) => {
               return (
                 <tr key={`tr${i}`} className="w-full block">
                   <td className="p-2 w-3/12 inline-block">{i + 1}</td>
